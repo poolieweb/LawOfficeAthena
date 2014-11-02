@@ -11,8 +11,15 @@ namespace OfficeAddinUI
 {
     public partial class DocAuto
     {
+        private OfficeAddinCustomTaskPane officeAddinCustomTaskPane;
+        private Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
+
+    
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            officeAddinCustomTaskPane = new OfficeAddinCustomTaskPane();
+            myCustomTaskPane = this.CustomTaskPanes.Add(officeAddinCustomTaskPane, "Athena Draft Assist");
+            myCustomTaskPane.Visible = true;
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
