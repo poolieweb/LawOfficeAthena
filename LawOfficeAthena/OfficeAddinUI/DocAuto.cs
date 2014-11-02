@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -12,20 +13,20 @@ namespace OfficeAddinUI
 {
     public partial class DocAuto
     {
-        private OfficeAddinCustomTaskPane officeAddinCustomTaskPane;
-        private Microsoft.Office.Tools.CustomTaskPane myCustomTaskPane;
+        private OfficeAddinCustomTaskPane _officeAddinCustomTaskPane;
+        private Microsoft.Office.Tools.CustomTaskPane _myCustomTaskPane;
 
         public DocData DocData { get; set; }
     
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-            officeAddinCustomTaskPane = new OfficeAddinCustomTaskPane();
-            myCustomTaskPane = this.CustomTaskPanes.Add(officeAddinCustomTaskPane, "Draft Assist");
-            myCustomTaskPane.Visible = true;
+            _officeAddinCustomTaskPane = new OfficeAddinCustomTaskPane();
+            _myCustomTaskPane = this.CustomTaskPanes.Add(_officeAddinCustomTaskPane, "Draft Assist");
+            _myCustomTaskPane.Visible = true;
 
             this.Application.DocumentChange += ThisAddIn_DocumentChange;
-            officeAddinCustomTaskPane.RefreshEvent += ThisAddIn_DocumentChange;
-            officeAddinCustomTaskPane.SectionChangeEvent += ThisAddIn_SectionChange;
+            _officeAddinCustomTaskPane.RefreshEvent += ThisAddIn_DocumentChange;
+            _officeAddinCustomTaskPane.SectionChangeEvent += ThisAddIn_SectionChange;
         }
 
         private void ThisAddIn_SectionChange(object sender, OfficeAddinCustomTaskPane.SectionChangeEventArgs sectionChangeEventArgs)
@@ -34,9 +35,14 @@ namespace OfficeAddinUI
             var range = section.Range;
 
             if (sectionChangeEventArgs.SectionSelected == false)
-            { 
-                range.Delete();
+            {
+                range.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorRed;
             }
+            else
+            {
+                range.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorWhite;
+            }
+
 
 
             //ThisAddIn_DocumentChange();
@@ -57,12 +63,12 @@ namespace OfficeAddinUI
                            
                 DocData = new DocData { BookmarkCount = bookmarkCount };
 
-                officeAddinCustomTaskPane.BookmarkCount = bookmarkCount;
-                officeAddinCustomTaskPane.ClearBookmarks();
+                _officeAddinCustomTaskPane.BookmarkCount = bookmarkCount;
+                _officeAddinCustomTaskPane.ClearBookmarks();
 
                 foreach ( Word.Bookmark bookmark in Application.ActiveDocument.Bookmarks)
                 {
-                    officeAddinCustomTaskPane.AddBookmark(bookmark.Name);
+                    _officeAddinCustomTaskPane.AddBookmark(bookmark.Name);
                 }
             }
  
