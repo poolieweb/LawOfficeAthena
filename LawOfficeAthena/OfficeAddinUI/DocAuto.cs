@@ -27,25 +27,37 @@ namespace OfficeAddinUI
             this.Application.DocumentChange += ThisAddIn_DocumentChange;
             _officeAddinCustomTaskPane.RefreshEvent += ThisAddIn_DocumentChange;
             _officeAddinCustomTaskPane.SectionChangeEvent += ThisAddIn_SectionChange;
+            _officeAddinCustomTaskPane.RemoveSectionsEvent += ThisAddInRemoveSectionsEvent;
+            _officeAddinCustomTaskPane.SectionGroupingChangeEvent += ThisAddIn_GroupSectionsSections;
+        }
+
+        private void ThisAddIn_GroupSectionsSections(object sender, OfficeAddinCustomTaskPane.SectionGroupingEventArgs sectionGroupingEventArgs)
+        {
+            ThisAddIn_DocumentChange();
+        }
+
+        private void ThisAddInRemoveSectionsEvent(object sender, EventArgs e)
+        {
+
+            var selectionRange = Application.ActiveDocument.Range();
+            var findLocal = selectionRange.Find;
+
+            findLocal.ClearFormatting();
+            findLocal.Format = true;
+            findLocal.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorRed;
+            findLocal.Execute(Replace: Word.WdReplace.wdReplaceAll);
+            
+            ThisAddIn_DocumentChange();
         }
 
         private void ThisAddIn_SectionChange(object sender, OfficeAddinCustomTaskPane.SectionChangeEventArgs sectionChangeEventArgs)
         {
             var section = this.Application.ActiveDocument.Bookmarks[sectionChangeEventArgs.SectionName];
+
             var range = section.Range;
 
-            if (sectionChangeEventArgs.SectionSelected == false)
-            {
-                range.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorRed;
-            }
-            else
-            {
-                range.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorWhite;
-            }
-
-
-
-            //ThisAddIn_DocumentChange();
+            range.Font.Shading.BackgroundPatternColor = sectionChangeEventArgs.SectionSelected == false 
+                ? Word.WdColor.wdColorRed : Word.WdColor.wdColorGray25;
 
         }
 
@@ -68,7 +80,26 @@ namespace OfficeAddinUI
 
                 foreach ( Word.Bookmark bookmark in Application.ActiveDocument.Bookmarks)
                 {
-                    _officeAddinCustomTaskPane.AddBookmark(bookmark.Name);
+
+                    if (_officeAddinCustomTaskPane.GroupSections)
+                    {
+
+                        if (bookmark.Name.LastIndexOf('_') >= 1)
+                        {
+                            var sectionName = bookmark.Name.Substring(0, bookmark.Name.LastIndexOf('_'));
+                            _officeAddinCustomTaskPane.AddBookmark(sectionName);
+                        }   else
+                        {
+                            _officeAddinCustomTaskPane.AddBookmark(bookmark.Name);
+                        }
+
+                   
+                    }
+                    else
+                    {
+                        _officeAddinCustomTaskPane.AddBookmark(bookmark.Name);
+                    }
+
                 }
             }
  
@@ -86,8 +117,8 @@ namespace OfficeAddinUI
         /// </summary>
         private void InternalStartup()
         {
-            this.Startup += new System.EventHandler(ThisAddIn_Startup);
-            this.Shutdown += new System.EventHandler(ThisAddIn_Shutdown);
+            this.Startup += ThisAddIn_Startup;
+            this.Shutdown += ThisAddIn_Shutdown;
         }
         
         
