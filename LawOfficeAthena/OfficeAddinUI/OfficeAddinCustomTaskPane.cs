@@ -37,10 +37,12 @@ namespace OfficeAddinUI
         }
 
 
-        public void AddBookmark(string bookmark)
+        public CheckedListBox SelectionsCheckList
         {
-            checkedListBox1.Items.Add(bookmark,true);
+            get { return checkedListBox1; }
         }
+
+
 
         private void button2_Click(object sender, EventArgs e)
         {

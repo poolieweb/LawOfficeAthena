@@ -68,41 +68,15 @@ namespace OfficeAddinUI
 
         private void ThisAddIn_DocumentChange()
         {
-
-            if (this.Application.Documents.Count >= 1)
+            if (Application.Documents.Count >= 1)
             {
-                var bookmarkCount = this.Application.ActiveDocument.Bookmarks.Count;
-                           
-                DocData = new DocData { BookmarkCount = bookmarkCount };
-
-                _officeAddinCustomTaskPane.BookmarkCount = bookmarkCount;
                 _officeAddinCustomTaskPane.ClearBookmarks();
 
-                foreach ( Word.Bookmark bookmark in Application.ActiveDocument.Bookmarks)
-                {
+                DocData = new DocData(_officeAddinCustomTaskPane.GroupSections,Application.ActiveDocument.Bookmarks);
 
-                    if (_officeAddinCustomTaskPane.GroupSections)
-                    {
-
-                        if (bookmark.Name.LastIndexOf('_') >= 1)
-                        {
-                            var sectionName = bookmark.Name.Substring(0, bookmark.Name.LastIndexOf('_'));
-                            _officeAddinCustomTaskPane.AddBookmark(sectionName);
-                        }   else
-                        {
-                            _officeAddinCustomTaskPane.AddBookmark(bookmark.Name);
-                        }
-
-                   
-                    }
-                    else
-                    {
-                        _officeAddinCustomTaskPane.AddBookmark(bookmark.Name);
-                    }
-
-                }
+                DocData.UpdateSections_CheckedListBox(_officeAddinCustomTaskPane.SelectionsCheckList);
+                _officeAddinCustomTaskPane.BookmarkCount = DocData.DocSectionsList.Count;
             }
- 
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
