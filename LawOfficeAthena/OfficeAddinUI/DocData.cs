@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using Word = Microsoft.Office.Interop.Word;
 
@@ -14,11 +15,38 @@ namespace OfficeAddinUI
         public DocData(bool groupSections, Word.Bookmarks bookmarks)
         {
 
+
            DocSectionsList = new List<DocSection>();
-           foreach (Word.Bookmark bookmark in bookmarks)
+
+           if (groupSections)
            {
-               DocSectionsList.Add(new DocSection(bookmark.Name, groupSections)); 
-           }
+                foreach (Word.Bookmark bookmark in bookmarks)
+                {
+                    var docSection = new DocSection(bookmark, true);
+
+                    if (DocSectionsList.All(d => d.ToString() != docSection.ToString()))
+                    {
+                        DocSectionsList.Add(docSection);
+                    }
+                    else
+                    {
+                        docSection = DocSectionsList.FirstOrDefault(d => d.ToString() == docSection.ToString());
+                        if (docSection != null) docSection.Bookmarks.Add(bookmark);
+                    }
+                }
+            
+            }
+            else
+            {
+                foreach (Word.Bookmark bookmark in bookmarks)
+                {
+                    DocSectionsList.Add(new DocSection(bookmark, false));
+                } 
+            }
+
+
+
+          
 
         }
 
@@ -28,51 +56,57 @@ namespace OfficeAddinUI
             {
                 selectionsCheckList.Items.Add(docSection);
             }
-
         }
 
 
 
         public class DocSection
         {
-            public bool GroupSections { get; set; }
-            public string DetailName { get; set; }
-            public string GroupName { get; set; }
-
+            public List<Word.Bookmark> Bookmarks { get; set; }
+            private bool GroupSections { get; set; }
 
             public override string ToString()
             {
+             
+                var firstName = Bookmarks.FirstOrDefault().Name;
 
-                if (GroupSections && GroupName != null)
+                if (GroupSections && firstName.LastIndexOf('_') != -1)
                 {
-                    return GroupName; 
+                    return firstName.Substring(firstName.LastIndexOf('_') + 1, firstName.Length - 1 - firstName.LastIndexOf('_'));
                 }
 
-                if (DetailName.LastIndexOf('_') == -1)
+                if (!GroupSections && firstName.LastIndexOf('_') != -1)
                 {
-                    return DetailName;
+                    return firstName.Substring(0, firstName.LastIndexOf('_'));
                 }
 
-                return DetailName + "_" + GroupName;
+                return firstName;
             }
 
-            public DocSection(string name, bool groupSections)
+
+            public DocSection(Word.Bookmark bookmark, bool groupSections)
             {
+                Bookmarks = new List<Word.Bookmark>();
+                Bookmarks.Add(bookmark);
                 GroupSections = groupSections;
-
-
-                if (name.LastIndexOf('_') == -1)
-                {
-                    DetailName = name;
-                }
-                else
-                {
-                    DetailName = name.Substring(0, name.LastIndexOf('_'));
-                    GroupName = name.Substring(name.LastIndexOf('_')+1, name.Length -1 - name.LastIndexOf('_'));
-                }
             }
+
         }
 
-  
+        public List<Word.Bookmark> GetSections(string sectionName)
+        {
+
+            var selctionList = new List<Word.Bookmark>();
+
+            foreach (var docSection in DocSectionsList)
+            {
+                if (docSection.ToString() == sectionName)
+                {
+                      selctionList.AddRange(docSection.Bookmarks);
+                }
+            }
+
+            return selctionList;
+        }
     }
 }

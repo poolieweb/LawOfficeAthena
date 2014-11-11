@@ -52,13 +52,22 @@ namespace OfficeAddinUI
 
         private void ThisAddIn_SectionChange(object sender, OfficeAddinCustomTaskPane.SectionChangeEventArgs sectionChangeEventArgs)
         {
-            var section = this.Application.ActiveDocument.Bookmarks[sectionChangeEventArgs.SectionName];
+            ThisAddIn_SectionChange(sectionChangeEventArgs.SectionName, sectionChangeEventArgs.SectionSelected);
+        }
 
-            var range = section.Range;
+        private void ThisAddIn_SectionChange(string sectionName, bool sectionSelected)
+        {
+            var bookmarks = DocData.GetSections(sectionName);
 
-            range.Font.Shading.BackgroundPatternColor = sectionChangeEventArgs.SectionSelected == false 
-                ? Word.WdColor.wdColorRed : Word.WdColor.wdColorGray25;
 
+            foreach (var bookmark in bookmarks)
+            {
+                var range = bookmark.Range;
+
+                range.Font.Shading.BackgroundPatternColor = sectionSelected == false
+                    ? Word.WdColor.wdColorRed
+                    : Word.WdColor.wdColorGray25;
+            }
         }
 
         private void ThisAddIn_DocumentChange(object sender, EventArgs e)
