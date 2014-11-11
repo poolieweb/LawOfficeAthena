@@ -7,16 +7,17 @@ namespace OfficeAddinUI
 {
     public class DocData
     {
-
+        public List<Word.Range> Markers { get; set; }
 
         public List<DocSection> DocSectionsList { get; set; }
 
 
-        public DocData(bool groupSections, Word.Bookmarks bookmarks)
+        public DocData(bool groupSections, Word.Bookmarks bookmarks, List<Word.Range> markers)
         {
+            Markers = markers;
 
 
-           DocSectionsList = new List<DocSection>();
+            DocSectionsList = new List<DocSection>();
 
            if (groupSections)
            {
@@ -54,7 +55,7 @@ namespace OfficeAddinUI
         {
             foreach (DocSection docSection in DocSectionsList)
             {
-                selectionsCheckList.Items.Add(docSection);
+                selectionsCheckList.Items.Add(docSection,true);
             }
         }
 

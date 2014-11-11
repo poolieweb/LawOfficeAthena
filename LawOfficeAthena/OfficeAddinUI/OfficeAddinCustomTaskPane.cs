@@ -84,11 +84,6 @@ namespace OfficeAddinUI
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            
-        }
-
         private void button3_Click(object sender, EventArgs e)
         {
             // Make a temporary copy of the event to avoid possibility of 
@@ -158,7 +153,11 @@ namespace OfficeAddinUI
                 get { return _currentValue == CheckState.Checked; }
             }
         }
-        
+
+        public void ClearSearchReplace()
+        {
+           listBox1.Items.Clear();
+        }
     }
 
 }

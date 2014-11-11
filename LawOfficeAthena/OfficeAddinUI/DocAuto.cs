@@ -24,19 +24,19 @@ namespace OfficeAddinUI
             _myCustomTaskPane = this.CustomTaskPanes.Add(_officeAddinCustomTaskPane, "Draft Assist");
             _myCustomTaskPane.Visible = true;
 
-            this.Application.DocumentChange += ThisAddIn_DocumentChange;
-            _officeAddinCustomTaskPane.RefreshEvent += ThisAddIn_DocumentChange;
-            _officeAddinCustomTaskPane.SectionChangeEvent += ThisAddIn_SectionChange;
-            _officeAddinCustomTaskPane.RemoveSectionsEvent += ThisAddInRemoveSectionsEvent;
-            _officeAddinCustomTaskPane.SectionGroupingChangeEvent += ThisAddIn_GroupSectionsSections;
+            this.Application.DocumentChange += DocumentSectionChange;
+            _officeAddinCustomTaskPane.RefreshEvent += DocumentSectionChange;
+            _officeAddinCustomTaskPane.SectionChangeEvent += SectionChange;
+            _officeAddinCustomTaskPane.RemoveSectionsEvent += RemoveSections;
+            _officeAddinCustomTaskPane.SectionGroupingChangeEvent += GroupSectionsChange;
         }
 
-        private void ThisAddIn_GroupSectionsSections(object sender, OfficeAddinCustomTaskPane.SectionGroupingEventArgs sectionGroupingEventArgs)
+        private void GroupSectionsChange(object sender, OfficeAddinCustomTaskPane.SectionGroupingEventArgs sectionGroupingEventArgs)
         {
-            ThisAddIn_DocumentChange();
+            DocumentSectionChange();
         }
 
-        private void ThisAddInRemoveSectionsEvent(object sender, EventArgs e)
+        private void RemoveSections(object sender, EventArgs e)
         {
 
             var selectionRange = Application.ActiveDocument.Range();
@@ -47,15 +47,15 @@ namespace OfficeAddinUI
             findLocal.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorRed;
             findLocal.Execute(Replace: Word.WdReplace.wdReplaceAll);
             
-            ThisAddIn_DocumentChange();
+            DocumentSectionChange();
         }
 
-        private void ThisAddIn_SectionChange(object sender, OfficeAddinCustomTaskPane.SectionChangeEventArgs sectionChangeEventArgs)
+        private void SectionChange(object sender, OfficeAddinCustomTaskPane.SectionChangeEventArgs sectionChangeEventArgs)
         {
-            ThisAddIn_SectionChange(sectionChangeEventArgs.SectionName, sectionChangeEventArgs.SectionSelected);
+            SectionChange(sectionChangeEventArgs.SectionName, sectionChangeEventArgs.SectionSelected);
         }
 
-        private void ThisAddIn_SectionChange(string sectionName, bool sectionSelected)
+        private void SectionChange(string sectionName, bool sectionSelected)
         {
             var bookmarks = DocData.GetSections(sectionName);
 
@@ -70,26 +70,54 @@ namespace OfficeAddinUI
             }
         }
 
-        private void ThisAddIn_DocumentChange(object sender, EventArgs e)
+        private void DocumentSectionChange(object sender, EventArgs e)
         {
-            ThisAddIn_DocumentChange();
+            DocumentSectionChange();
+        
         }
 
-        private void ThisAddIn_DocumentChange()
+
+        private void DocumentSectionChange()
         {
             if (Application.Documents.Count >= 1)
             {
                 _officeAddinCustomTaskPane.ClearBookmarks();
+                _officeAddinCustomTaskPane.ClearSearchReplace();
+             
+               var markers = FindReplaceMarkers();
 
-                DocData = new DocData(_officeAddinCustomTaskPane.GroupSections,Application.ActiveDocument.Bookmarks);
+
+               DocData = new DocData(_officeAddinCustomTaskPane.GroupSections, Application.ActiveDocument.Bookmarks, markers);
 
                 DocData.UpdateSections_CheckedListBox(_officeAddinCustomTaskPane.SelectionsCheckList);
+          
                 _officeAddinCustomTaskPane.BookmarkCount = DocData.DocSectionsList.Count;
             }
         }
 
-        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
+        private List<Word.Range> FindReplaceMarkers()
         {
+
+            var ranges = new List<Word.Range>();
+
+            Application.Selection.Find.ClearFormatting();
+            Application.Selection.Find.MatchWildcards = true;
+            Application.Selection.Find.Wrap =
+                Microsoft.Office.Interop.Word.WdFindWrap.wdFindContinue;
+
+            Application.Selection.Find.MatchWildcards = true;
+
+            object findStr = @"\[*\]";
+
+            while (Application.Selection.Find.Execute(ref findStr)) //If Found...
+            {
+                //change font and format of matched words
+                Application.Selection.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorBlueGray;
+                ranges.Add(Application.Selection.Range);
+            }
+
+            return ranges;
+
         }
 
         #region VSTO generated code
@@ -105,6 +133,9 @@ namespace OfficeAddinUI
         }
         
         
+        private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
+        {
+        }
        
 
         #endregion
