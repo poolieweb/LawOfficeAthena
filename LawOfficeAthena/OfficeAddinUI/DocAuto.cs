@@ -29,9 +29,72 @@ namespace OfficeAddinUI
             _officeAddinCustomTaskPane.SectionChangeEvent += SectionChange;
             _officeAddinCustomTaskPane.RemoveSectionsEvent += RemoveSections;
             _officeAddinCustomTaskPane.SectionGroupingChangeEvent += GroupSectionsChange;
+            _officeAddinCustomTaskPane.FindReplaceChangeEvent += FindReplaceChange;
+             _officeAddinCustomTaskPane.ReplaceEvent += ReplaceText;
+
+    
+
+            
         }
 
-        private void GroupSectionsChange(object sender, OfficeAddinCustomTaskPane.SectionGroupingEventArgs sectionGroupingEventArgs)
+        private void ReplaceText(object sender, ReplaceEventArgs e)
+        {
+            var selectionRange = Application.ActiveDocument.Range();
+            var findLocal = selectionRange.Find;
+
+            var sectedItem = (FindReplaceSection) e.SelectedItem;
+            findLocal.ClearFormatting();
+            findLocal.Text = sectedItem.Key;
+
+            while (findLocal.Execute())  //If Found...
+            {
+                //change font and format of matched words
+                selectionRange.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorOrange;
+            }
+        }
+
+        private void FindReplaceChange(object sender, FindReplaceEventArgs e)
+        {
+            FindReplaceChange((FindReplaceSection)e.SelectedItem);
+        }
+
+        private void FindReplaceChange(FindReplaceSection selectedItem)
+        {
+            var selectionRangeReset = Application.ActiveDocument.Range();
+            var findLocalReset = selectionRangeReset.Find;
+
+
+            findLocalReset.ClearFormatting();
+            findLocalReset.Format = true;
+            findLocalReset.Wrap = Word.WdFindWrap.wdFindContinue;
+            findLocalReset.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorOrange;
+
+            while (findLocalReset.Execute())  //If Found...
+            {
+                //change font and format of matched words
+                selectionRangeReset.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorLavender;
+            }
+
+            var selectionRange = Application.ActiveDocument.Range();
+            var  findLocal = selectionRange.Find;
+
+
+            findLocal.ClearFormatting();
+            findLocal.Text = selectedItem.Key;
+
+            while (findLocal.Execute())  //If Found...
+            {
+                //change font and format of matched words
+                selectionRange.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorOrange;
+            }
+        }
+
+        private void GroupSectionsChange(object sender, SectionGroupingEventArgs sectionGroupingEventArgs)
+        {
+            DocumentSectionChange();
+        }
+
+        private void DocumentSectionChange(object sender, EventArgs e)
         {
             DocumentSectionChange();
         }
@@ -50,7 +113,7 @@ namespace OfficeAddinUI
             DocumentSectionChange();
         }
 
-        private void SectionChange(object sender, OfficeAddinCustomTaskPane.SectionChangeEventArgs sectionChangeEventArgs)
+        private void SectionChange(object sender, SectionChangeEventArgs sectionChangeEventArgs)
         {
             SectionChange(sectionChangeEventArgs.SectionName, sectionChangeEventArgs.SectionSelected);
         }
@@ -70,13 +133,6 @@ namespace OfficeAddinUI
             }
         }
 
-        private void DocumentSectionChange(object sender, EventArgs e)
-        {
-            DocumentSectionChange();
-        
-        }
-
-
         private void DocumentSectionChange()
         {
             if (Application.Documents.Count >= 1)
@@ -90,6 +146,7 @@ namespace OfficeAddinUI
                DocData = new DocData(_officeAddinCustomTaskPane.GroupSections, Application.ActiveDocument.Bookmarks, markers);
 
                 DocData.UpdateSections_CheckedListBox(_officeAddinCustomTaskPane.SelectionsCheckList);
+                DocData.UpdateFindAndReplace_ListBox(_officeAddinCustomTaskPane.FindReplaceList);
           
                 _officeAddinCustomTaskPane.BookmarkCount = DocData.DocSectionsList.Count;
             }
@@ -112,7 +169,7 @@ namespace OfficeAddinUI
             while (Application.Selection.Find.Execute(ref findStr)) //If Found...
             {
                 //change font and format of matched words
-                Application.Selection.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorBlueGray;
+                Application.Selection.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorLavender;
                 ranges.Add(Application.Selection.Range);
             }
 

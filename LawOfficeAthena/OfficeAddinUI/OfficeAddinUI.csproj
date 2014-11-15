@@ -158,16 +158,21 @@
   -->
   <ItemGroup>
     <Compile Include="DocData.cs" />
-    <Compile Include="OfficeAddinCustomTaskPane.cs">
+    <Compile Include="DocSection.cs" />
+    <Compile Include="UI\EventArgs\FindReplaceEventArgs.cs" />
+    <Compile Include="FindReplaceSection.cs" />
+    <Compile Include="UI\OfficeAddinCustomTaskPane.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="OfficeAddinCustomTaskPane.Designer.cs">
+    <Compile Include="UI\OfficeAddinCustomTaskPane.Designer.cs">
       <DependentUpon>OfficeAddinCustomTaskPane.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <EmbeddedResource Include="OfficeAddinCustomTaskPane.resx">
+    <Compile Include="UI\EventArgs\SectionChangeEventArgs.cs" />
+    <Compile Include="UI\EventArgs\SectionGroupingEventArgs.cs" />
+    <EmbeddedResource Include="UI\OfficeAddinCustomTaskPane.resx">
       <DependentUpon>OfficeAddinCustomTaskPane.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -179,7 +184,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Ribbon.resx">
+    <EmbeddedResource Include="UI\Ribbon.resx">
       <DependentUpon>Ribbon.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
@@ -190,10 +195,11 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Ribbon.cs">
+    <Compile Include="UI\EventArgs\ReplaceEventArgs.cs" />
+    <Compile Include="UI\Ribbon.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Ribbon.Designer.cs">
+    <Compile Include="UI\Ribbon.Designer.cs">
       <DependentUpon>Ribbon.cs</DependentUpon>
     </Compile>
     <Compile Include="DocAuto.cs">

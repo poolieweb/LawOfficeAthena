@@ -1,27 +1,26 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using Word = Microsoft.Office.Interop.Word;
+using Microsoft.Office.Interop.Word;
 
 namespace OfficeAddinUI
 {
     public class DocData
     {
-        public List<Word.Range> Markers { get; set; }
+        public List<Range> Markers { get; set; }
 
         public List<DocSection> DocSectionsList { get; set; }
 
-
-        public DocData(bool groupSections, Word.Bookmarks bookmarks, List<Word.Range> markers)
+        public DocData(bool groupSections, Bookmarks bookmarks, List<Range> markers)
         {
             Markers = markers;
 
 
             DocSectionsList = new List<DocSection>();
 
-           if (groupSections)
-           {
-                foreach (Word.Bookmark bookmark in bookmarks)
+            if (groupSections)
+            {
+                foreach (Bookmark bookmark in bookmarks)
                 {
                     var docSection = new DocSection(bookmark, true);
 
@@ -35,75 +34,47 @@ namespace OfficeAddinUI
                         if (docSection != null) docSection.Bookmarks.Add(bookmark);
                     }
                 }
-            
             }
             else
             {
-                foreach (Word.Bookmark bookmark in bookmarks)
+                foreach (Bookmark bookmark in bookmarks)
                 {
                     DocSectionsList.Add(new DocSection(bookmark, false));
-                } 
+                }
             }
-
-
-
-          
-
         }
 
         public void UpdateSections_CheckedListBox(CheckedListBox selectionsCheckList)
         {
-            foreach (DocSection docSection in DocSectionsList)
+            foreach (var docSection in DocSectionsList)
             {
-                selectionsCheckList.Items.Add(docSection,true);
+                selectionsCheckList.Items.Add(docSection, true);
             }
         }
 
-
-
-        public class DocSection
+        public void UpdateFindAndReplace_ListBox(ListBox findReplaceList)
         {
-            public List<Word.Bookmark> Bookmarks { get; set; }
-            private bool GroupSections { get; set; }
+            var results = from m in Markers
+                group m by m.Text
+                into grp
+                select new FindReplaceSection(grp.Key, grp.Count());
 
-            public override string ToString()
+
+            foreach (var marker in results)
             {
-             
-                var firstName = Bookmarks.FirstOrDefault().Name;
-
-                if (GroupSections && firstName.LastIndexOf('_') != -1)
-                {
-                    return firstName.Substring(firstName.LastIndexOf('_') + 1, firstName.Length - 1 - firstName.LastIndexOf('_'));
-                }
-
-                if (!GroupSections && firstName.LastIndexOf('_') != -1)
-                {
-                    return firstName.Substring(0, firstName.LastIndexOf('_'));
-                }
-
-                return firstName;
+                findReplaceList.Items.Add(marker);
             }
-
-
-            public DocSection(Word.Bookmark bookmark, bool groupSections)
-            {
-                Bookmarks = new List<Word.Bookmark>();
-                Bookmarks.Add(bookmark);
-                GroupSections = groupSections;
-            }
-
         }
 
-        public List<Word.Bookmark> GetSections(string sectionName)
+        public List<Bookmark> GetSections(string sectionName)
         {
-
-            var selctionList = new List<Word.Bookmark>();
+            var selctionList = new List<Bookmark>();
 
             foreach (var docSection in DocSectionsList)
             {
                 if (docSection.ToString() == sectionName)
                 {
-                      selctionList.AddRange(docSection.Bookmarks);
+                    selctionList.AddRange(docSection.Bookmarks);
                 }
             }
 
