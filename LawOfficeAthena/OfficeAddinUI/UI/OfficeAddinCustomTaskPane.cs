@@ -6,6 +6,7 @@ namespace OfficeAddinUI
 {
     public partial class OfficeAddinCustomTaskPane : UserControl
     {
+
         public event EventHandler RefreshEvent;
         public event EventHandler RemoveSectionsEvent;
         public event EventHandler<ReplaceEventArgs> ReplaceEvent;
@@ -30,9 +31,17 @@ namespace OfficeAddinUI
         }
 
 
-        public CheckedListBox SelectionsCheckList { get; private set; }
+        public CheckedListBox SelectionsCheckList
+        {
+            get { return selectionsCheckList; }
+            private set { selectionsCheckList = value; }
+        }
 
-        public ListBox FindReplaceList { get; private set; }
+        public ListBox FindReplaceList
+        {
+            get { return findReplaceList; }
+            private set { findReplaceList = value; }
+        }
 
 
         private void button2_Click(object sender, EventArgs e)
@@ -142,10 +151,29 @@ namespace OfficeAddinUI
             var txt = textBox1.Text;
 
             // Event will be null if there are no subscribers 
-            if (handler != null)
+            if (handler != null && e.KeyCode == Keys.Enter)
             {
 
                 var args = new ReplaceEventArgs(lbi,txt);
+                // Use the () operator to raise the event.
+                handler(this, args);
+            }
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            // Make a temporary copy of the event to avoid possibility of 
+            // a race condition if the last subscriber unsubscribes 
+            // immediately after the null check and before the event is raised.
+            var handler = ReplaceEvent;
+            var lbi = FindReplaceList.SelectedItem;
+            var txt = textBox1.Text;
+
+            // Event will be null if there are no subscribers 
+            if (handler != null)
+            {
+
+                var args = new ReplaceEventArgs(lbi, txt);
                 // Use the () operator to raise the event.
                 handler(this, args);
             }

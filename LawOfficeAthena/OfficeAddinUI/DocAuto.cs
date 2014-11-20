@@ -30,9 +30,7 @@ namespace OfficeAddinUI
             _officeAddinCustomTaskPane.RemoveSectionsEvent += RemoveSections;
             _officeAddinCustomTaskPane.SectionGroupingChangeEvent += GroupSectionsChange;
             _officeAddinCustomTaskPane.FindReplaceChangeEvent += FindReplaceChange;
-             _officeAddinCustomTaskPane.ReplaceEvent += ReplaceText;
-
-    
+            _officeAddinCustomTaskPane.ReplaceEvent += ReplaceText;
 
             
         }
@@ -44,12 +42,13 @@ namespace OfficeAddinUI
 
             var sectedItem = (FindReplaceSection) e.SelectedItem;
             findLocal.ClearFormatting();
+            findLocal.Wrap = Word.WdFindWrap.wdFindContinue;
             findLocal.Text = sectedItem.Key;
 
             while (findLocal.Execute())  //If Found...
             {
                 //change font and format of matched words
-                selectionRange.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorOrange;
+                selectionRange.Text  = e.ReplaceText;
             }
         }
 
@@ -77,7 +76,6 @@ namespace OfficeAddinUI
 
             var selectionRange = Application.ActiveDocument.Range();
             var  findLocal = selectionRange.Find;
-
 
             findLocal.ClearFormatting();
             findLocal.Text = selectedItem.Key;
@@ -142,6 +140,7 @@ namespace OfficeAddinUI
              
                var markers = FindReplaceMarkers();
 
+                ClearFormatting();
 
                DocData = new DocData(_officeAddinCustomTaskPane.GroupSections, Application.ActiveDocument.Bookmarks, markers);
 
@@ -149,6 +148,40 @@ namespace OfficeAddinUI
                 DocData.UpdateFindAndReplace_ListBox(_officeAddinCustomTaskPane.FindReplaceList);
           
                 _officeAddinCustomTaskPane.BookmarkCount = DocData.DocSectionsList.Count;
+            }
+        }
+
+        private void ClearFormatting()
+        {
+            var selectionRangeReset = Application.ActiveDocument.Range();
+            var findLocalReset = selectionRangeReset.Find;
+
+
+            findLocalReset.ClearFormatting();
+            findLocalReset.Format = true;
+            findLocalReset.Wrap = Word.WdFindWrap.wdFindContinue;
+            findLocalReset.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorLavender;
+
+            while (findLocalReset.Execute())  //If Found...
+            {
+                //change font and format of matched words
+                selectionRangeReset.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorWhite;
+            }
+
+            findLocalReset.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorRed;
+
+            while (findLocalReset.Execute())  //If Found...
+            {
+                //change font and format of matched words
+                selectionRangeReset.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorWhite;
+            }
+
+            findLocalReset.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorOrange;
+
+            while (findLocalReset.Execute())  //If Found...
+            {
+                //change font and format of matched words
+                selectionRangeReset.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorWhite;
             }
         }
 

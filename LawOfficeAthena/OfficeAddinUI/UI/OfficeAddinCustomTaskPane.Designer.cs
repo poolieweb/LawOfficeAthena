@@ -40,13 +40,13 @@ namespace OfficeAddinUI
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.SelectionsCheckList = new System.Windows.Forms.CheckedListBox();
+            this.selectionsCheckList = new System.Windows.Forms.CheckedListBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.FindReplaceList = new System.Windows.Forms.ListBox();
+            this.findReplaceList = new System.Windows.Forms.ListBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -76,7 +76,7 @@ namespace OfficeAddinUI
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.tableLayoutPanel2);
             this.groupBox1.Controls.Add(this.tableLayoutPanel1);
-            this.groupBox1.Controls.Add(this.SelectionsCheckList);
+            this.groupBox1.Controls.Add(this.selectionsCheckList);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
@@ -169,17 +169,17 @@ namespace OfficeAddinUI
             this.label2.TabIndex = 1;
             this.label2.Text = "0";
             // 
-            // checkedListBox1
+            // selectionsCheckList
             // 
-            this.SelectionsCheckList.CheckOnClick = true;
-            this.SelectionsCheckList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.SelectionsCheckList.FormattingEnabled = true;
-            this.SelectionsCheckList.Location = new System.Drawing.Point(3, 16);
-            this.SelectionsCheckList.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
-            this.SelectionsCheckList.Name = "SelectionsCheckList";
-            this.SelectionsCheckList.Size = new System.Drawing.Size(273, 124);
-            this.SelectionsCheckList.TabIndex = 0;
-            this.SelectionsCheckList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
+            this.selectionsCheckList.CheckOnClick = true;
+            this.selectionsCheckList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.selectionsCheckList.FormattingEnabled = true;
+            this.selectionsCheckList.Location = new System.Drawing.Point(3, 16);
+            this.selectionsCheckList.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
+            this.selectionsCheckList.Name = "selectionsCheckList";
+            this.selectionsCheckList.Size = new System.Drawing.Size(273, 124);
+            this.selectionsCheckList.TabIndex = 0;
+            this.selectionsCheckList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             // 
             // panel2
             // 
@@ -193,7 +193,7 @@ namespace OfficeAddinUI
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.panel4);
-            this.groupBox2.Controls.Add(this.FindReplaceList);
+            this.groupBox2.Controls.Add(this.findReplaceList);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 0);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
@@ -233,18 +233,19 @@ namespace OfficeAddinUI
             this.button1.TabIndex = 2;
             this.button1.Text = "Replace";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // listBox1
+            // findReplaceList
             // 
-            this.FindReplaceList.Dock = System.Windows.Forms.DockStyle.Top;
-            this.FindReplaceList.FormattingEnabled = true;
-            this.FindReplaceList.HorizontalScrollbar = true;
-            this.FindReplaceList.Location = new System.Drawing.Point(3, 16);
-            this.FindReplaceList.Name = "FindReplaceList";
-            this.FindReplaceList.ScrollAlwaysVisible = true;
-            this.FindReplaceList.Size = new System.Drawing.Size(273, 108);
-            this.FindReplaceList.TabIndex = 0;
-            this.FindReplaceList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            this.findReplaceList.Dock = System.Windows.Forms.DockStyle.Top;
+            this.findReplaceList.FormattingEnabled = true;
+            this.findReplaceList.HorizontalScrollbar = true;
+            this.findReplaceList.Location = new System.Drawing.Point(3, 16);
+            this.findReplaceList.Name = "findReplaceList";
+            this.findReplaceList.ScrollAlwaysVisible = true;
+            this.findReplaceList.Size = new System.Drawing.Size(273, 108);
+            this.findReplaceList.TabIndex = 0;
+            this.findReplaceList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // panel3
             // 
@@ -322,6 +323,8 @@ namespace OfficeAddinUI
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
 
+        private System.Windows.Forms.ListBox findReplaceList;
+        private System.Windows.Forms.CheckedListBox selectionsCheckList;
     
     }
 }
