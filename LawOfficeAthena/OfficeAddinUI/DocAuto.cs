@@ -32,7 +32,8 @@ namespace OfficeAddinUI
             _officeAddinCustomTaskPane.FindReplaceChangeEvent += FindReplaceChange;
             _officeAddinCustomTaskPane.ReplaceEvent += ReplaceText;
 
-            
+            Application.ActiveWindow.View.SplitSpecial = Word.WdSpecialPane.wdPaneRevisionsVert;
+
         }
 
         private void ReplaceText(object sender, ReplaceEventArgs e)
@@ -135,6 +136,10 @@ namespace OfficeAddinUI
         {
             if (Application.Documents.Count >= 1)
             {
+                Application.ActiveDocument.TrackRevisions = true;
+                Application.ActiveWindow.View.ShowRevisionsAndComments = true;
+
+              
                 _officeAddinCustomTaskPane.ClearBookmarks();
                 _officeAddinCustomTaskPane.ClearSearchReplace();
              
