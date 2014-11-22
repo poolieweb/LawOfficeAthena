@@ -178,5 +178,15 @@ namespace OfficeAddinUI
                 handler(this, args);
             }
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

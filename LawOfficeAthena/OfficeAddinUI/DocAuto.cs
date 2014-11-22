@@ -14,17 +14,17 @@ namespace OfficeAddinUI
     public partial class DocAuto
     {
         private OfficeAddinCustomTaskPane _officeAddinCustomTaskPane;
-        private Microsoft.Office.Tools.CustomTaskPane _myCustomTaskPane;
+        public Microsoft.Office.Tools.CustomTaskPane _myCustomTaskPane;
 
         public DocData DocData { get; set; }
     
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
             _officeAddinCustomTaskPane = new OfficeAddinCustomTaskPane();
-            _myCustomTaskPane = this.CustomTaskPanes.Add(_officeAddinCustomTaskPane, "Draft Assist");
-            _myCustomTaskPane.Visible = true;
 
-            this.Application.DocumentChange += DocumentSectionChange;
+            Application.DocumentOpen += DocumentOpen;
+            ((Word.ApplicationEvents4_Event)Application).NewDocument += DocumentNew; 
+            Application.DocumentChange += DocumentSectionChange;
             _officeAddinCustomTaskPane.RefreshEvent += DocumentSectionChange;
             _officeAddinCustomTaskPane.SectionChangeEvent += SectionChange;
             _officeAddinCustomTaskPane.RemoveSectionsEvent += RemoveSections;
@@ -32,8 +32,29 @@ namespace OfficeAddinUI
             _officeAddinCustomTaskPane.FindReplaceChangeEvent += FindReplaceChange;
             _officeAddinCustomTaskPane.ReplaceEvent += ReplaceText;
 
-            Application.ActiveWindow.View.SplitSpecial = Word.WdSpecialPane.wdPaneRevisionsVert;
+        }
 
+        private void DocumentNew(Word.Document doc)
+        {
+            //DocumentSectionChange();
+            ////Application.ActiveWindow.View.SplitSpecial = Word.WdSpecialPane.wdPaneRevisionsVert;
+            //_myCustomTaskPane = CustomTaskPanes.Add(_officeAddinCustomTaskPane, "Draft Assist");
+            //_myCustomTaskPane.Visible = true;
+        }
+
+        private void DocumentOpen(Word.Document doc)
+        {
+           
+            //Application.ActiveWindow.View.SplitSpecial = Word.WdSpecialPane.wdPaneRevisionsVert;
+            //_myCustomTaskPane = CustomTaskPanes.Add(_officeAddinCustomTaskPane, "Draft Assist");
+            //_myCustomTaskPane.Visible = true;     
+
+        }
+
+        public void ShowPane()
+        {
+            _myCustomTaskPane = CustomTaskPanes.Add(_officeAddinCustomTaskPane, "Draft Assist");
+            _myCustomTaskPane.Visible = true; 
         }
 
         private void ReplaceText(object sender, ReplaceEventArgs e)
@@ -42,6 +63,13 @@ namespace OfficeAddinUI
             var findLocal = selectionRange.Find;
 
             var sectedItem = (FindReplaceSection) e.SelectedItem;
+
+
+            if (sectedItem == null)
+            {
+                return;
+            }
+
             findLocal.ClearFormatting();
             findLocal.Wrap = Word.WdFindWrap.wdFindContinue;
             findLocal.Text = sectedItem.Key;
@@ -230,9 +258,14 @@ namespace OfficeAddinUI
         
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
+ 
+
+            _myCustomTaskPane = null;
         }
        
 
         #endregion
+
+       
     }
 }
