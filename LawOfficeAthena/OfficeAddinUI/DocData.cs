@@ -54,6 +54,9 @@ namespace OfficeAddinUI
 
         public void UpdateFindAndReplace_ListBox(ListBox findReplaceList)
         {
+
+            findReplaceList.Items.Clear();
+
             var results = from m in Markers
                 group m by m.Text
                 into grp

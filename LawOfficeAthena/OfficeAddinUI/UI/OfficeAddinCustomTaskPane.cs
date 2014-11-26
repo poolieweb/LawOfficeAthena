@@ -129,15 +129,18 @@ namespace OfficeAddinUI
             // immediately after the null check and before the event is raised.
             var handler = FindReplaceChangeEvent;
 
-            var lbi = FindReplaceList.SelectedItem;
-
-            // Event will be null if there are no subscribers 
-            if (handler != null)
+            if (FindReplaceList.SelectedItem != null)
             {
-                var args = new FindReplaceEventArgs(lbi);
+                var lbi = FindReplaceList.SelectedItem;
 
-                // Use the () operator to raise the event.
-                handler(this, args);
+                // Event will be null if there are no subscribers 
+                if (handler != null)
+                {
+                    var args = new FindReplaceEventArgs(lbi);
+
+                    // Use the () operator to raise the event.
+                    handler(this, args);
+                }
             }
         }
 

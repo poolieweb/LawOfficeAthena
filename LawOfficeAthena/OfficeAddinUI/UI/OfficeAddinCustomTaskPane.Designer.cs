@@ -43,21 +43,21 @@ namespace OfficeAddinUI
             this.selectionsCheckList = new System.Windows.Forms.CheckedListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
+            this.findReplaceList = new System.Windows.Forms.ListBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.findReplaceList = new System.Windows.Forms.ListBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -77,7 +77,7 @@ namespace OfficeAddinUI
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
             this.panel1.Padding = new System.Windows.Forms.Padding(0, 0, 0, 3);
-            this.panel1.Size = new System.Drawing.Size(287, 216);
+            this.panel1.Size = new System.Drawing.Size(312, 216);
             this.panel1.TabIndex = 0;
             // 
             // groupBox1
@@ -89,7 +89,7 @@ namespace OfficeAddinUI
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(287, 213);
+            this.groupBox1.Size = new System.Drawing.Size(312, 213);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sections";
@@ -99,7 +99,7 @@ namespace OfficeAddinUI
             this.button3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.button3.Location = new System.Drawing.Point(3, 187);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(281, 23);
+            this.button3.Size = new System.Drawing.Size(306, 23);
             this.button3.TabIndex = 3;
             this.button3.Text = "Remove Sections";
             this.button3.UseVisualStyleBackColor = true;
@@ -117,7 +117,7 @@ namespace OfficeAddinUI
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 1;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(281, 48);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(306, 48);
             this.tableLayoutPanel2.TabIndex = 2;
             // 
             // radioButton_groupSections
@@ -135,7 +135,7 @@ namespace OfficeAddinUI
             // 
             this.radioButton2.AutoSize = true;
             this.radioButton2.Checked = true;
-            this.radioButton2.Location = new System.Drawing.Point(143, 3);
+            this.radioButton2.Location = new System.Drawing.Point(156, 3);
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(45, 17);
             this.radioButton2.TabIndex = 1;
@@ -157,7 +157,7 @@ namespace OfficeAddinUI
             this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(281, 22);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(306, 22);
             this.tableLayoutPanel1.TabIndex = 1;
             // 
             // label1
@@ -172,7 +172,7 @@ namespace OfficeAddinUI
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(231, 3);
+            this.label2.Location = new System.Drawing.Point(251, 3);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(13, 13);
             this.label2.TabIndex = 1;
@@ -186,65 +186,65 @@ namespace OfficeAddinUI
             this.selectionsCheckList.Location = new System.Drawing.Point(3, 16);
             this.selectionsCheckList.Margin = new System.Windows.Forms.Padding(3, 3, 3, 6);
             this.selectionsCheckList.Name = "selectionsCheckList";
-            this.selectionsCheckList.Size = new System.Drawing.Size(281, 124);
+            this.selectionsCheckList.Size = new System.Drawing.Size(306, 124);
             this.selectionsCheckList.TabIndex = 0;
             this.selectionsCheckList.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.checkedListBox1_ItemCheck);
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.panel4);
-            this.groupBox2.Controls.Add(this.findReplaceList);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.groupBox2.Location = new System.Drawing.Point(0, 216);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(287, 337);
+            this.groupBox2.Size = new System.Drawing.Size(312, 337);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Replace";
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.findReplaceList);
             this.panel4.Controls.Add(this.textBox1);
             this.panel4.Controls.Add(this.button1);
-            this.panel4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel4.Location = new System.Drawing.Point(3, 286);
+            this.panel4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel4.Location = new System.Drawing.Point(3, 16);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.panel4.Size = new System.Drawing.Size(281, 48);
+            this.panel4.Size = new System.Drawing.Size(306, 318);
             this.panel4.TabIndex = 3;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBox1.Location = new System.Drawing.Point(0, 5);
-            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(281, 20);
-            this.textBox1.TabIndex = 2;
-            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
-            // 
-            // button1
-            // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button1.Location = new System.Drawing.Point(0, 25);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(281, 23);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Replace";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // findReplaceList
             // 
             this.findReplaceList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.findReplaceList.FormattingEnabled = true;
             this.findReplaceList.HorizontalScrollbar = true;
-            this.findReplaceList.Location = new System.Drawing.Point(3, 16);
+            this.findReplaceList.Location = new System.Drawing.Point(0, 3);
             this.findReplaceList.Name = "findReplaceList";
-            this.findReplaceList.Size = new System.Drawing.Size(281, 318);
+            this.findReplaceList.Size = new System.Drawing.Size(306, 272);
             this.findReplaceList.TabIndex = 0;
             this.findReplaceList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // textBox1
+            // 
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.textBox1.Location = new System.Drawing.Point(0, 275);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(306, 20);
+            this.textBox1.TabIndex = 2;
+            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button1.Location = new System.Drawing.Point(0, 295);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(306, 23);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "Replace";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // panel3
             // 
@@ -252,7 +252,7 @@ namespace OfficeAddinUI
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panel3.Location = new System.Drawing.Point(0, 553);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(287, 226);
+            this.panel3.Size = new System.Drawing.Size(312, 226);
             this.panel3.TabIndex = 2;
             // 
             // groupBox3
@@ -264,21 +264,10 @@ namespace OfficeAddinUI
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.groupBox3.Location = new System.Drawing.Point(0, 7);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(287, 219);
+            this.groupBox3.Size = new System.Drawing.Size(312, 219);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Tools";
-            // 
-            // button2
-            // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button2.Location = new System.Drawing.Point(3, 193);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(281, 23);
-            this.button2.TabIndex = 0;
-            this.button2.Text = "Refresh";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // groupBox4
             // 
@@ -288,10 +277,20 @@ namespace OfficeAddinUI
             this.groupBox4.Location = new System.Drawing.Point(3, 16);
             this.groupBox4.Name = "groupBox4";
             this.groupBox4.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.groupBox4.Size = new System.Drawing.Size(281, 109);
+            this.groupBox4.Size = new System.Drawing.Size(306, 109);
             this.groupBox4.TabIndex = 1;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Review and Replace";
+            // 
+            // button4
+            // 
+            this.button4.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button4.Location = new System.Drawing.Point(3, 83);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(300, 23);
+            this.button4.TabIndex = 1;
+            this.button4.Text = "Review / Replace";
+            this.button4.UseVisualStyleBackColor = true;
             // 
             // tableLayoutPanel3
             // 
@@ -308,29 +307,30 @@ namespace OfficeAddinUI
             this.tableLayoutPanel3.RowCount = 2;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(275, 56);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(300, 56);
             this.tableLayoutPanel3.TabIndex = 0;
             // 
             // textBox2
             // 
             this.textBox2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.textBox2.Location = new System.Drawing.Point(76, 3);
+            this.textBox2.Location = new System.Drawing.Point(83, 3);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(196, 20);
+            this.textBox2.Size = new System.Drawing.Size(214, 20);
             this.textBox2.TabIndex = 0;
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(76, 31);
+            this.textBox3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox3.Location = new System.Drawing.Point(83, 31);
             this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(196, 20);
+            this.textBox3.Size = new System.Drawing.Size(214, 20);
             this.textBox3.TabIndex = 2;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label3.Location = new System.Drawing.Point(43, 0);
+            this.label3.Location = new System.Drawing.Point(50, 0);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(27, 28);
             this.label3.TabIndex = 3;
@@ -340,21 +340,11 @@ namespace OfficeAddinUI
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Left;
-            this.label4.Location = new System.Drawing.Point(23, 28);
+            this.label4.Location = new System.Drawing.Point(30, 28);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(47, 28);
             this.label4.TabIndex = 4;
             this.label4.Text = "Replace";
-            // 
-            // button4
-            // 
-            this.button4.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button4.Location = new System.Drawing.Point(3, 83);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(275, 23);
-            this.button4.TabIndex = 1;
-            this.button4.Text = "Review / Replace";
-            this.button4.UseVisualStyleBackColor = true;
             // 
             // button5
             // 
@@ -362,7 +352,7 @@ namespace OfficeAddinUI
             this.button5.Enabled = false;
             this.button5.Location = new System.Drawing.Point(3, 147);
             this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(281, 23);
+            this.button5.Size = new System.Drawing.Size(306, 23);
             this.button5.TabIndex = 2;
             this.button5.Text = "Clear Highlighting";
             this.button5.UseVisualStyleBackColor = true;
@@ -374,10 +364,21 @@ namespace OfficeAddinUI
             this.button6.Enabled = false;
             this.button6.Location = new System.Drawing.Point(3, 170);
             this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(281, 23);
+            this.button6.Size = new System.Drawing.Size(306, 23);
             this.button6.TabIndex = 3;
             this.button6.Text = "Export and Review";
             this.button6.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.button2.Location = new System.Drawing.Point(3, 193);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(306, 23);
+            this.button2.TabIndex = 0;
+            this.button2.Text = "Refresh";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // OfficeAddinCustomTaskPane
             // 
@@ -387,7 +388,7 @@ namespace OfficeAddinUI
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Name = "OfficeAddinCustomTaskPane";
-            this.Size = new System.Drawing.Size(287, 779);
+            this.Size = new System.Drawing.Size(312, 779);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
