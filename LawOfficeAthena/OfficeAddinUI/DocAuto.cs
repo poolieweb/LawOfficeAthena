@@ -13,38 +13,116 @@ namespace OfficeAddinUI
 {
     public partial class DocAuto
     {
-        private OfficeAddinCustomTaskPane _officeAddinCustomTaskPane;
-        public Microsoft.Office.Tools.CustomTaskPane _myCustomTaskPane;
 
-        public DocData DocData { get; set; }
+
+
+        private Dictionary<string, OfficeAddinCustomTaskPane> OfficeAddinCustomTaskPanes;
+        private Dictionary<string, DocData> DocDatas;
+
+        public OfficeAddinCustomTaskPane GetOfficeAddinCustomTaskPane()
+        {
+            string test = Application.ActiveDocument.Name;
+
+            if (OfficeAddinCustomTaskPanes.ContainsKey(test))
+            {
+
+                return OfficeAddinCustomTaskPanes[test];
+            }
+            var pane = new OfficeAddinCustomTaskPane();
+
+            OfficeAddinCustomTaskPanes.Add(test, pane);
+            return pane;
+        }
+
+        public DocData GetDocData()
+        {
+            string test = Application.ActiveDocument.Name;
+
+            return DocDatas[test];
+        }
+
+
     
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
-            _officeAddinCustomTaskPane = new OfficeAddinCustomTaskPane();
-
+            OfficeAddinCustomTaskPanes = new Dictionary<string, OfficeAddinCustomTaskPane>();
+            DocDatas = new Dictionary<string, DocData>();
+         
             Application.DocumentOpen += HookUpEvents;
             ((Word.ApplicationEvents4_Event)Application).NewDocument += HookUpEvents;
+            Application.DocumentBeforeClose += ReleaseEvents;
+        }
+
+        private void ReleaseEvents(Word.Document doc, ref bool cancel)
+        {
+            ReleasePane();
+            ReleaseDocData();
+
+            string test = Application.ActiveDocument.Name;
+            var pane = GetOfficeAddinCustomTaskPane();
+
+            if (CustomTaskPanes.Contains(pane.CustomPane))
+            {
+                CustomTaskPanes.Remove(pane.CustomPane);
+            }
+        }
+
+        private void ReleaseDocData()
+        {
+            string test = Application.ActiveDocument.Name;
+            if (DocDatas.ContainsKey(test))
+            {
+                DocDatas.Remove(test);
+            }
+            
+        }
+
+        private void ReleasePane()
+        {
+            string test = Application.ActiveDocument.Name;
+
+            if (OfficeAddinCustomTaskPanes.ContainsKey(test))
+            {
+
+                OfficeAddinCustomTaskPanes.Remove(test);
+            }
         }
 
 
         private void HookUpEvents(Word.Document doc)
         {
-            _myCustomTaskPane = CustomTaskPanes.Add(_officeAddinCustomTaskPane, "Draft Assist");
-            _myCustomTaskPane.Visible = true;
 
+            string test = Application.ActiveDocument.Name;
+
+            var pane = GetOfficeAddinCustomTaskPane();
+
+            var customPane = CustomTaskPanes.Add(pane, test);
+            customPane.Visible = true;
+            pane.CustomPane = customPane;
+            
             Application.DocumentChange += DocumentSectionChange;
-            _officeAddinCustomTaskPane.RefreshEvent += DocumentSectionChange;
-            _officeAddinCustomTaskPane.SectionChangeEvent += SectionItemIndexChange;
-            _officeAddinCustomTaskPane.RemoveSectionsEvent += RemoveSections;
-            _officeAddinCustomTaskPane.SectionGroupingChangeEvent += GroupSectionsChange;
-            _officeAddinCustomTaskPane.FindReplaceChangeEvent += FindReplaceChange;
-            _officeAddinCustomTaskPane.ReplaceEvent += ReplaceText;
+            pane.RefreshEvent += DocumentSectionChange;
+            pane.SectionChangeEvent += SectionItemIndexChange;
+            pane.RemoveSectionsEvent += RemoveSections;
+            pane.SectionGroupingChangeEvent += GroupSectionsChange;
+            pane.FindReplaceChangeEvent += FindReplaceChange;
+            pane.ReplaceEvent += ReplaceText;
         }
 
         public void ShowPane()
-        {
-            _myCustomTaskPane = CustomTaskPanes.Add(_officeAddinCustomTaskPane, "Draft Assist");
-            _myCustomTaskPane.Visible = true; 
+
+         {
+            string test = Application.ActiveDocument.Name;
+            var pane = GetOfficeAddinCustomTaskPane();
+
+            if (CustomTaskPanes.Contains(pane.CustomPane))
+            {
+                pane.CustomPane.Visible = true;
+            }
+            else
+            {
+                HookUpEvents(null);
+            }
         }
 
         private void ReplaceText(object sender, ReplaceEventArgs e)
@@ -70,7 +148,7 @@ namespace OfficeAddinUI
                 selectionRange.Text  = e.ReplaceText;
             }
 
-            _officeAddinCustomTaskPane.FindReplaceList.Items.Remove(sectedItem);
+            GetOfficeAddinCustomTaskPane().FindReplaceList.Items.Remove(sectedItem);
 
         }
 
@@ -141,16 +219,27 @@ namespace OfficeAddinUI
 
         private void SectionItemIndexChange(string sectionName, bool sectionSelected)
         {
-            var bookmarks = DocData.GetSections(sectionName);
+            var bookmarks = GetDocData().GetSections(sectionName);
 
 
             foreach (var bookmark in bookmarks)
             {
-                var range = bookmark.Range;
+                try
+                {
+                     if (bookmark.Range != null)
+                {
+                    var range = bookmark.Range;
 
-                range.Font.Shading.BackgroundPatternColor = sectionSelected == false
-                    ? Word.WdColor.wdColorRed
-                    : Word.WdColor.wdColorGray25;
+                    range.Font.Shading.BackgroundPatternColor = sectionSelected == false
+                        ? Word.WdColor.wdColorRed
+                        : Word.WdColor.wdColorGray25;
+                }
+                }
+                catch (System.Runtime.InteropServices.COMException)
+                {
+                    
+                }
+               
             }
         }
 
@@ -161,18 +250,32 @@ namespace OfficeAddinUI
                 //Application.ActiveDocument.TrackRevisions = true;
                 //Application.ActiveWindow.View.ShowRevisionsAndComments = true;
 
-                _officeAddinCustomTaskPane.ClearBookmarks();
-                _officeAddinCustomTaskPane.ClearSearchReplace();
+                var pane = GetOfficeAddinCustomTaskPane();
+
+                pane.ClearBookmarks();
+                pane.ClearSearchReplace();
                 ClearFormatting();
 
                 var markers = CreateFindAndReplaceListItems();
 
-               DocData = new DocData(_officeAddinCustomTaskPane.GroupSections, Application.ActiveDocument.Bookmarks, markers);
 
-                DocData.UpdateSections_CheckedListBox(_officeAddinCustomTaskPane.SelectionsCheckList);
-                DocData.UpdateFindAndReplace_ListBox(_officeAddinCustomTaskPane.FindReplaceList);
-          
-                _officeAddinCustomTaskPane.BookmarkCount = DocData.DocSectionsList.Count;
+                DocData docdata;
+                if(!DocDatas.ContainsKey(Application.ActiveDocument.Name))
+                {
+                    docdata = new DocData(pane.GroupSections, Application.ActiveDocument.Bookmarks, markers);
+                    DocDatas.Add(Application.ActiveDocument.Name, docdata);
+                }
+                else
+                {
+                    docdata = DocDatas[Application.ActiveDocument.Name];
+                }
+
+         
+
+                docdata.UpdateSections_CheckedListBox(pane.SelectionsCheckList);
+                docdata.UpdateFindAndReplace_ListBox(pane.FindReplaceList);
+
+                pane.BookmarkCount = docdata.DocSectionsList.Count;
             }
         }
 
@@ -243,7 +346,7 @@ namespace OfficeAddinUI
         
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
-            _myCustomTaskPane = null;
+         
         }
        
 

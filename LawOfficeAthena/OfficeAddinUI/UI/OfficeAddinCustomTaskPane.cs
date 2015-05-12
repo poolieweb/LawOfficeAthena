@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
+using Microsoft.Office.Tools;
 
 namespace OfficeAddinUI
 {
@@ -42,6 +43,8 @@ namespace OfficeAddinUI
             get { return findReplaceList; }
             private set { findReplaceList = value; }
         }
+
+        public CustomTaskPane CustomPane { get; set; }
 
 
         private void button2_Click(object sender, EventArgs e)
