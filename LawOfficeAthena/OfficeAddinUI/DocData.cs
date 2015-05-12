@@ -58,6 +58,7 @@ namespace OfficeAddinUI
             findReplaceList.Items.Clear();
 
             var results = from m in Markers
+                where m.Text != null
                 group m by m.Text
                 into grp
                 select new FindReplaceSection(grp.Key, grp.Count());
