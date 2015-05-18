@@ -14,8 +14,6 @@ namespace OfficeAddinUI
     public partial class DocAuto
     {
 
-
-
         private Dictionary<string, OfficeAddinCustomTaskPane> OfficeAddinCustomTaskPanes;
         private Dictionary<string, DocData> DocDatas;
 
@@ -268,6 +266,8 @@ namespace OfficeAddinUI
                 else
                 {
                     docdata = DocDatas[Application.ActiveDocument.Name];
+
+                    docdata.SetBookmarks(pane.GroupSections,Application.ActiveDocument.Bookmarks);
                 }
 
          
@@ -295,7 +295,9 @@ namespace OfficeAddinUI
             {
                 Word.WdColor.wdColorLavender,
                 Word.WdColor.wdColorRed,
-                Word.WdColor.wdColorOrange
+                Word.WdColor.wdColorOrange,
+                Word.WdColor.wdColorGray25,
+
             };
 
             foreach (var color in wdColors)

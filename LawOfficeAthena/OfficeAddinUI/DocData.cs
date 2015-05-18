@@ -16,6 +16,13 @@ namespace OfficeAddinUI
             Markers = markers;
 
 
+          
+
+            SetBookmarks(groupSections, bookmarks);
+        }
+
+        public void SetBookmarks(bool groupSections, Bookmarks bookmarks)
+        {
             DocSectionsList = new List<DocSection>();
 
             if (groupSections)

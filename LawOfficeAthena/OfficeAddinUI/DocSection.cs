@@ -29,10 +29,10 @@ namespace OfficeAddinUI
                             firstName.Length - 1 - firstName.LastIndexOf('_'));
                     }
 
-                    if (!GroupSections && firstName.LastIndexOf('_') != -1)
-                    {
-                        return firstName.Substring(0, firstName.LastIndexOf('_'));
-                    }
+                    //if (!GroupSections && firstName.LastIndexOf('_') != -1)
+                    //{
+                    //    return firstName.Substring(0, firstName.LastIndexOf('_'));
+                    //}
 
                     toString=  firstName;
                 }
