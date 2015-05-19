@@ -105,10 +105,14 @@ namespace OfficeAddinUI
             pane.SectionGroupingChangeEvent += GroupSectionsChange;
             pane.FindReplaceChangeEvent += FindReplaceChange;
             pane.ReplaceEvent += ReplaceText;
+            pane.AdhocFindReplace += AdhocFindAndReplace;
 
             pane.ClearHighlighting += ClearHighlighting;
 
+
         }
+
+       
 
         private void ClearHighlighting(object sender, EventArgs e)
         {
@@ -161,6 +165,26 @@ namespace OfficeAddinUI
         private void FindReplaceChange(object sender, FindReplaceEventArgs e)
         {
             FindReplaceChange((FindReplaceSection)e.SelectedItem);
+        }
+
+        private void AdhocFindAndReplace(object sender, AdhocFindReplaceArgs e)
+        {
+
+            var selectionRange = Application.ActiveDocument.Range();
+            var findLocal = selectionRange.Find;
+
+            findLocal.ClearFormatting();
+            findLocal.Text = e.TxtFind;
+            findLocal.Format = false;
+            //findLocal.Wrap = Word.WdFindWrap.wdFindContinue;
+
+            while (findLocal.Execute())  //If Found...
+            {
+                //change font and format of matched words
+                selectionRange.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorPink;
+                selectionRange.Text = e.TxtReplace;
+            }
+
         }
 
         private void FindReplaceChange(FindReplaceSection selectedItem)
@@ -310,6 +334,7 @@ namespace OfficeAddinUI
                 Word.WdColor.wdColorRed,
                 Word.WdColor.wdColorOrange,
                 Word.WdColor.wdColorGray25,
+                Word.WdColor.wdColorPink
 
             };
 

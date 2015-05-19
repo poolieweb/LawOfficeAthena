@@ -8,6 +8,7 @@ namespace OfficeAddinUI
     public partial class OfficeAddinCustomTaskPane : UserControl
     {
 
+        public event EventHandler<AdhocFindReplaceArgs> AdhocFindReplace;
         public event EventHandler ClearHighlighting;
         public event EventHandler RefreshEvent;
         public event EventHandler RemoveSectionsEvent;
@@ -207,5 +208,30 @@ namespace OfficeAddinUI
 
          
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
+            // Make a temporary copy of the event to avoid possibility of 
+            // a race condition if the last subscriber unsubscribes 
+            // immediately after the null check and before the event is raised.
+            var handler = AdhocFindReplace;
+
+
+            var txtFind = textBox2.Text;
+            var txtReplace = textBox3.Text;
+
+            // Event will be null if there are no subscribers 
+            if (handler != null)
+            {
+
+                var args = new AdhocFindReplaceArgs(txtFind, txtReplace);
+                // Use the () operator to raise the event.
+                handler(this, args);
+            }
+               
+        }
     }
+
+   
 }

@@ -159,6 +159,7 @@
   <ItemGroup>
     <Compile Include="DocData.cs" />
     <Compile Include="DocSection.cs" />
+    <Compile Include="UI\EventArgs\AdhocFindReplaceArgs.cs" />
     <Compile Include="UI\EventArgs\FindReplaceEventArgs.cs" />
     <Compile Include="FindReplaceSection.cs" />
     <Compile Include="UI\OfficeAddinCustomTaskPane.cs">
