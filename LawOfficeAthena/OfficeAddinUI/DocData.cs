@@ -15,9 +15,6 @@ namespace OfficeAddinUI
         {
             Markers = markers;
 
-
-          
-
             SetBookmarks(groupSections, bookmarks);
         }
 

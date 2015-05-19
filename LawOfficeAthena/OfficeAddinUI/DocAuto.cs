@@ -105,6 +105,14 @@ namespace OfficeAddinUI
             pane.SectionGroupingChangeEvent += GroupSectionsChange;
             pane.FindReplaceChangeEvent += FindReplaceChange;
             pane.ReplaceEvent += ReplaceText;
+
+            pane.ClearHighlighting += ClearHighlighting;
+
+        }
+
+        private void ClearHighlighting(object sender, EventArgs e)
+        {
+            ClearFormatting();
         }
 
         public void ShowPane()
@@ -188,8 +196,12 @@ namespace OfficeAddinUI
 
         private void GroupSectionsChange(object sender, SectionGroupingEventArgs sectionGroupingEventArgs)
         {
+            this.GroupUpdate = true;
             DocumentSectionChange();
+            this.GroupUpdate = false;
         }
+
+        private bool GroupUpdate { get; set; }
 
         private void DocumentSectionChange(object sender, EventArgs e)
         {
@@ -212,7 +224,7 @@ namespace OfficeAddinUI
 
         private void SectionItemIndexChange(object sender, SectionChangeEventArgs sectionChangeEventArgs)
         {
-            SectionItemIndexChange(sectionChangeEventArgs.SectionName, sectionChangeEventArgs.SectionSelected);
+             SectionItemIndexChange(sectionChangeEventArgs.SectionName, sectionChangeEventArgs.SectionSelected);
         }
 
         private void SectionItemIndexChange(string sectionName, bool sectionSelected)
@@ -266,6 +278,7 @@ namespace OfficeAddinUI
                 else
                 {
                     docdata = DocDatas[Application.ActiveDocument.Name];
+                    docdata.Markers = markers;
 
                     docdata.SetBookmarks(pane.GroupSections,Application.ActiveDocument.Bookmarks);
                 }

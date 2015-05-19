@@ -349,7 +349,6 @@ namespace OfficeAddinUI
             // button5
             // 
             this.button5.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button5.Enabled = false;
             this.button5.Location = new System.Drawing.Point(3, 147);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(306, 23);
