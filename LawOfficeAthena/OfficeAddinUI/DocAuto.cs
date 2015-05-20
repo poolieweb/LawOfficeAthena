@@ -170,20 +170,26 @@ namespace OfficeAddinUI
         private void AdhocFindAndReplace(object sender, AdhocFindReplaceArgs e)
         {
 
-            var selectionRange = Application.ActiveDocument.Range();
-            var findLocal = selectionRange.Find;
 
-            findLocal.ClearFormatting();
-            findLocal.Text = e.TxtFind;
-            findLocal.Format = false;
-            //findLocal.Wrap = Word.WdFindWrap.wdFindContinue;
 
-            while (findLocal.Execute())  //If Found...
-            {
-                //change font and format of matched words
-                selectionRange.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorPink;
-                selectionRange.Text = e.TxtReplace;
-            }
+            int intFound = 0;
+            Word.Document document = this.Application.ActiveDocument;
+            Word.Range rng = document.Content;
+
+            Word.Find findObject = rng.Find;
+            findObject.ClearFormatting();
+            findObject.Text = e.TxtFind; ;
+            findObject.Replacement.ClearFormatting();
+            findObject.Replacement.Text = e.TxtReplace;
+            findObject.Replacement.Font.Shading.BackgroundPatternColor = Word.WdColor.wdColorPink;
+            findObject.Wrap = Word.WdFindWrap.wdFindContinue;
+
+            object replaceAll = Word.WdReplace.wdReplaceAll;
+            findObject.Execute(ref missing, ref missing, ref missing, ref missing, ref missing,
+                ref missing, ref missing, ref missing, ref missing, ref missing,
+                ref replaceAll, ref missing, ref missing, ref missing, ref missing);
+
+
 
         }
 
@@ -313,6 +319,11 @@ namespace OfficeAddinUI
                 docdata.UpdateFindAndReplace_ListBox(pane.FindReplaceList);
 
                 pane.BookmarkCount = docdata.DocSectionsList.Count;
+
+                Object unit = Word.WdUnits.wdStory;
+                Object extend = Word.WdMovementType.wdMove;
+                Application.Selection.HomeKey(ref unit, ref extend);
+
             }
         }
 
