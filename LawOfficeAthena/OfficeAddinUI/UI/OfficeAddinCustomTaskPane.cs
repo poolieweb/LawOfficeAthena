@@ -20,6 +20,9 @@ namespace OfficeAddinUI
         public OfficeAddinCustomTaskPane()
         {
             InitializeComponent();
+
+            this.toolTip1.SetToolTip(this.selectionsCheckList, "To group bookmarks, end the name with \"_groupname\". Example would be \"Part1_GroupName1" +
+   "Name1\" and \"Part2_GroupName1\"");
         }
 
         public int BookmarkCount
@@ -230,6 +233,11 @@ namespace OfficeAddinUI
                 handler(this, args);
             }
                
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
         }
     }
 

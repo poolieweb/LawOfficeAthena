@@ -31,6 +31,7 @@ namespace OfficeAddinUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -58,6 +59,7 @@ namespace OfficeAddinUI
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -380,6 +382,18 @@ namespace OfficeAddinUI
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // toolTip1
+            // 
+            this.toolTip1.AutoPopDelay = 20000;
+            this.toolTip1.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.toolTip1.ForeColor = System.Drawing.SystemColors.HighlightText;
+            this.toolTip1.InitialDelay = 500;
+            this.toolTip1.IsBalloon = true;
+            this.toolTip1.ReshowDelay = 100;
+            this.toolTip1.ShowAlways = true;
+            this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.toolTip1.ToolTipTitle = "Info";
+            // 
             // OfficeAddinCustomTaskPane
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -437,6 +451,7 @@ namespace OfficeAddinUI
         private Button button6;
         private Button button5;
         private Button button4;
+        private ToolTip toolTip1;
     
     }
 }

@@ -46,8 +46,8 @@ namespace OfficeAddinUI
             OfficeAddinCustomTaskPanes = new Dictionary<string, OfficeAddinCustomTaskPane>();
             DocDatas = new Dictionary<string, DocData>();
          
-            Application.DocumentOpen += HookUpEvents;
-            ((Word.ApplicationEvents4_Event)Application).NewDocument += HookUpEvents;
+            //Application.DocumentOpen += HookUpEvents;
+            //((Word.ApplicationEvents4_Event)Application).NewDocument += HookUpEvents;
             Application.DocumentBeforeClose += ReleaseEvents;
         }
 
@@ -77,6 +77,9 @@ namespace OfficeAddinUI
 
         private void ReleasePane()
         {
+
+            ClearFormatting();
+
             string test = Application.ActiveDocument.Name;
 
             if (OfficeAddinCustomTaskPanes.ContainsKey(test))
@@ -122,7 +125,7 @@ namespace OfficeAddinUI
         public void ShowPane()
 
          {
-            string test = Application.ActiveDocument.Name;
+            //string test = Application.ActiveDocument.Name;
             var pane = GetOfficeAddinCustomTaskPane();
 
             if (CustomTaskPanes.Contains(pane.CustomPane))
