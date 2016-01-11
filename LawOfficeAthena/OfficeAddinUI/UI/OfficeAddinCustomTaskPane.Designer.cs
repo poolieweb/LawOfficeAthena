@@ -60,6 +60,7 @@ namespace OfficeAddinUI
             this.button6 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.label5 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
@@ -199,7 +200,7 @@ namespace OfficeAddinUI
             this.groupBox2.Location = new System.Drawing.Point(0, 216);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(312, 337);
+            this.groupBox2.Size = new System.Drawing.Size(312, 181);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Replace";
@@ -213,7 +214,7 @@ namespace OfficeAddinUI
             this.panel4.Location = new System.Drawing.Point(3, 16);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(0, 3, 0, 0);
-            this.panel4.Size = new System.Drawing.Size(306, 318);
+            this.panel4.Size = new System.Drawing.Size(306, 162);
             this.panel4.TabIndex = 3;
             // 
             // findReplaceList
@@ -223,14 +224,14 @@ namespace OfficeAddinUI
             this.findReplaceList.HorizontalScrollbar = true;
             this.findReplaceList.Location = new System.Drawing.Point(0, 3);
             this.findReplaceList.Name = "findReplaceList";
-            this.findReplaceList.Size = new System.Drawing.Size(306, 272);
+            this.findReplaceList.Size = new System.Drawing.Size(306, 116);
             this.findReplaceList.TabIndex = 0;
             this.findReplaceList.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
             // 
             // textBox1
             // 
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.textBox1.Location = new System.Drawing.Point(0, 275);
+            this.textBox1.Location = new System.Drawing.Point(0, 119);
             this.textBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(306, 20);
@@ -240,7 +241,7 @@ namespace OfficeAddinUI
             // button1
             // 
             this.button1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.button1.Location = new System.Drawing.Point(0, 295);
+            this.button1.Location = new System.Drawing.Point(0, 139);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(306, 23);
             this.button1.TabIndex = 2;
@@ -252,13 +253,14 @@ namespace OfficeAddinUI
             // 
             this.panel3.Controls.Add(this.groupBox3);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel3.Location = new System.Drawing.Point(0, 553);
+            this.panel3.Location = new System.Drawing.Point(0, 397);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(312, 226);
             this.panel3.TabIndex = 2;
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.groupBox4);
             this.groupBox3.Controls.Add(this.button5);
             this.groupBox3.Controls.Add(this.button6);
@@ -394,6 +396,16 @@ namespace OfficeAddinUI
             this.toolTip1.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip1.ToolTipTitle = "Info";
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 128);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(47, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Beta 0.1";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
             // OfficeAddinCustomTaskPane
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -402,7 +414,7 @@ namespace OfficeAddinUI
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
             this.Name = "OfficeAddinCustomTaskPane";
-            this.Size = new System.Drawing.Size(312, 779);
+            this.Size = new System.Drawing.Size(312, 623);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
@@ -414,6 +426,7 @@ namespace OfficeAddinUI
             this.panel4.PerformLayout();
             this.panel3.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
@@ -452,6 +465,6 @@ namespace OfficeAddinUI
         private Button button5;
         private Button button4;
         private ToolTip toolTip1;
-    
+        private Label label5;
     }
 }
